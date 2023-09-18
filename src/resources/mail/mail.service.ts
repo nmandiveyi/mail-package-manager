@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Context } from 'src/context/context.service';
 import { CreateMailDto } from './mail.type';
 
 @Injectable()
 export class MailService {
   constructor(
-    private prismaService: PrismaService
+    private context: Context
   ){}
 
   async getAll() {
-    return await this.prismaService.mail.findMany();
+    return await this.context.mail.findMany();
   }
 
   async create(createMailDto: CreateMailDto) {
-    return await this.prismaService.mail.create({
+    return await this.context.mail.create({
       data: {
         ...createMailDto
       }

@@ -2,7 +2,7 @@ import {
   BadRequestException,
   Injectable as Service
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Context } from 'src/context/context.service';
 import {
   UserSigninDto,
   UserSignupDto
@@ -16,7 +16,7 @@ import { ConfigService } from '@nestjs/config';
 @Service()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
+    private context: Context,
     private jwt: JwtService,
     private config:  ConfigService,
   ) {}
@@ -30,7 +30,7 @@ export class AuthService {
 
     try {
       const user =
-        await this.prismaService.user.create({
+        await this.context.user.create({
           data: {
             ...signupDto,
             hash
@@ -65,7 +65,7 @@ export class AuthService {
     const { email, password } = signinDto;
 
     const user =
-      await this.prismaService.user.findFirst({
+      await this.context.user.findFirst({
         where: {
           email
         }
