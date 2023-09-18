@@ -17,6 +17,7 @@
 
 - [Description](#description)
 - [Installation](#installation)
+- [Environment variables](#environment-variables)
 - [Running the app](#running-the-app)
 - [Test](#test)
 
@@ -28,6 +29,16 @@ This is a backend application for managing mail and packages for a residence.
 
 ```bash
 $ npm install
+```
+
+## Environment variables
+
+Create a `.env` file with the following in the root
+
+```bash
+DATABASE_URL=<DATABASE_URL>
+
+AUTH_SECRET=<AUTH_SECRET>
 ```
 
 ## Running the app
