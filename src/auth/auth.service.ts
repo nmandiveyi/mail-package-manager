@@ -1,16 +1,53 @@
-import { Injectable as Service } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
-import { UserSigninDto, UserSignupDto } from "./auth.type";
+import {
+  BadRequestException,
+  Injectable as Service
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import {
+  UserSigninDto,
+  UserSignupDto
+} from './auth.type';
+import * as argon from 'argon2';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Service()
 export class AuthService {
-    constructor( private prismaService: PrismaService){}
+  constructor(
+    private prismaService: PrismaService
+  ) {}
 
-    async signup(signupDto: UserSignupDto) {
-        return signupDto;
-    }
+  async signup(signupDto: UserSignupDto) {
+    const hash = await argon.hash(
+      signupDto.password
+    );
+    delete signupDto.password;
 
-    async signin(signinDto: UserSigninDto) {
-        return signinDto;
+    try {
+      const user =
+        await this.prismaService.user.create({
+          data: {
+            ...signupDto,
+            hash
+          }
+        });
+
+      delete user.hash;
+      return user;
+    } catch (error) {
+      if (
+        error instanceof
+        PrismaClientKnownRequestError
+      ) {
+        if (error.code === 'P2002') {
+          return new BadRequestException(
+            'User credentials already taken'
+          );
+        }
+      }
     }
+  }
+
+  async signin(signinDto: UserSigninDto) {
+    return signinDto;
+  }
 }
