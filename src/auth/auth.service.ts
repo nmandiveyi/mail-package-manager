@@ -9,14 +9,20 @@ import {
 } from './auth.type';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+
 
 @Service()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService
+    private prismaService: PrismaService,
+    private jwt: JwtService,
+    private config:  ConfigService,
   ) {}
 
-  async signup(signupDto: UserSignupDto) {
+  async signup(signupDto: UserSignupDto
+    ): Promise<{ access_token: string}> {
     const hash = await argon.hash(
       signupDto.password
     );
@@ -32,14 +38,20 @@ export class AuthService {
         });
 
       delete user.hash;
-      return user;
+
+      const {
+        id: userId,
+        email
+      } = user;
+
+      return this.signToken(userId, email);
     } catch (error) {
       if (
         error instanceof
         PrismaClientKnownRequestError
       ) {
         if (error.code === 'P2002') {
-          return new BadRequestException(
+          throw new BadRequestException(
             'User credentials already taken'
           );
         }
@@ -48,7 +60,8 @@ export class AuthService {
     }
   }
 
-  async signin(signinDto: UserSigninDto) {
+  async signin(signinDto: UserSigninDto
+    ): Promise<{ access_token: string}> {
     const { email, password } = signinDto;
 
     const user =
@@ -77,6 +90,26 @@ export class AuthService {
 
     delete user.hash;
 
-    return user;
+    const {
+      id: userId,
+    } = user;
+
+    return this.signToken(userId, email);
+  }
+
+  async signToken(userId: number, email: string
+    ): Promise<{ access_token: string}> {
+
+    const payload = {
+      sub: userId,
+      email
+    };
+
+    const access_token = await this.jwt.signAsync(payload, {
+      expiresIn: '15m',
+      secret: this.config.get("AUTH_SECRET")
+    });
+
+    return { access_token };
   }
 }
