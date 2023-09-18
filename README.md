@@ -13,6 +13,13 @@
   <br />
 </p>
 
+## Table of contents
+
+- [Description](#description)
+- [Installation](#installation)
+- [Running the app](#running-the-app)
+- [Test](#test)
+
 ## Description
 
 This is a backend application for managing mail and packages for a residence.
