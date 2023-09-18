@@ -11,13 +11,15 @@ model Mail  {
   id               Int                 @id() @default(autoincrement())
   ownerId          Int
   typeId           String
-  statusId         Int                 @map("status_id")
+  statusId         String                 @map("status_id")
   notes            String
-  modifiedBy       String
+  modifiedBy       String?
   createdAt        DateTime            @default(now())
   updatedAt        DateTime            @updatedAt
   owner            User                @relation(fields: [ownerId], references: [id])
   status           MailStatus          @relation(fields: [statusId], references: [id])
+  notifications    Notification[]
+  type             MailType            @relation(fields: [typeId], references: [id])
 
 }
 
@@ -42,7 +44,7 @@ model Role {
 }
 
 model MailStatus {
-  id              Int                 @id() @default(autoincrement())
+  id              String                 @id()
   name            String
   mail            Mail[]       
 }
@@ -50,27 +52,32 @@ model MailStatus {
 model Notification {
   id              Int                 @id() @default(autoincrement())
   mailId          Int                 @map("mail_id")
-  typeId          Int                 @map("type_id")
+  typeId          String                 @map("type_id")
   ownerId         Int                 @map("owner_id")
-  modeId          Int                 @map("mode_id")
+  modeId          String                 @map("mode_id")
   createdAt       DateTime            @map("created_at") @default(now())
   mode            NotificationMode    @relation(fields: [modeId], references: [id])
   type            NotificationType    @relation(fields: [typeId], references: [id])
+  mail            Mail                @relation(fields: [mailId], references: [id])
 }
 
 model NotificationMode {
-  id              Int                 @id() @default(autoincrement())
+  id              String                 @id() 
   name            String
   notifications   Notification[]
 }
 
 model NotificationType {
-  id              Int                @id() @default(autoincrement())
+  id              String                @id()
   name            String
   notifications   Notification[]
-
 }
 
+model MailType {
+  id              String                @id()
+  name            String
+  mail            Mail[]
+}
 
 
 
