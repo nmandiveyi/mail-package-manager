@@ -44,6 +44,7 @@ export class AuthService {
           );
         }
       }
+      throw error;
     }
   }
 
@@ -58,7 +59,7 @@ export class AuthService {
       });
 
     if (!user) {
-      return new BadRequestException(
+      throw new BadRequestException(
         'No user with these credentials'
       );
     }
@@ -69,7 +70,7 @@ export class AuthService {
     );
 
     if (!validateUser) {
-      return new BadRequestException(
+      throw new BadRequestException(
         'Your password is incorrect'
       );
     }
