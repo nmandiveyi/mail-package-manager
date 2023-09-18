@@ -8,36 +8,36 @@ datasource db {
 }
 
 model Mail  {
-  id                Int                 @id() @default(autoincrement())
-  ownerId           Int
-  typeId            String
-  statusId          Int                 @map("status_id")
-  notes             String
-  modifiedBy        String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  owner             User                @relation(fields: [ownerId], references: [id])
-  status            MailStatus          @relation(fields: [statusId], references: [id])
+  id               Int                 @id() @default(autoincrement())
+  ownerId          Int
+  typeId           String
+  statusId         Int                 @map("status_id")
+  notes            String
+  modifiedBy       String
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  owner            User                @relation(fields: [ownerId], references: [id])
+  status           MailStatus          @relation(fields: [statusId], references: [id])
 
 }
 
 model User {
-  id               Int                  @id() @default(autoincrement())
-  firstName        String               @map("first_name")
-  lastName         String               @map("last_name")
-  email            String 
-  phoneNumber      String               @map("phone_number")
-  roleId           Int                  @map("role_id")
-  mail             Mail[]
-  role             Role[]
-  hash             String
+  id              Int                  @id() @default(autoincrement())
+  firstName       String               @map("first_name")
+  lastName        String               @map("last_name")
+  email           String 
+  phoneNumber     String               @map("phone_number")
+  roleId          Int?                 @map("role_id")
+  mail            Mail[]
+  role            Role[]
+  hash            String
 
 }
 
 model Role {
-  id               Int                 @id() @default(autoincrement())
-  name             String
-  users            User[]
+  id              Int                 @id() @default(autoincrement())
+  name            String
+  users           User[]
 
 }
 
