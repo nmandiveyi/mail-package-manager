@@ -1,6 +1,7 @@
 <br />
 <div align='center'>
   <img src='./assets/logo.png' alt='mail package manager logo' height='150' />
+  <h1 style='color: rgb(158, 77, 59)'>Mail Package Manager</h1>
 </div>
 
 
