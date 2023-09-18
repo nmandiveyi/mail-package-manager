@@ -48,6 +48,34 @@ export class AuthService {
   }
 
   async signin(signinDto: UserSigninDto) {
-    return signinDto;
+    const { email, password } = signinDto;
+
+    const user =
+      await this.prismaService.user.findFirst({
+        where: {
+          email
+        }
+      });
+
+    if (!user) {
+      return new BadRequestException(
+        'No user with these credentials'
+      );
+    }
+
+    const validateUser = await argon.verify(
+      user.hash,
+      password
+    );
+
+    if (!validateUser) {
+      return new BadRequestException(
+        'Your password is incorrect'
+      );
+    }
+
+    delete user.hash;
+
+    return user;
   }
 }
