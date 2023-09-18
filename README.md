@@ -6,9 +6,9 @@
   </h1>
 </div>
 <p align='center'>
-  <img scr='https://img.shields.io/badge/node-green' alt='node'/>
-  <img scr='https://img.shields.io/badge/nest-red' alt='nest'/>
-  <img scr='https://img.shields.io/badge/typescript-blue' alt='typescript'/>
+  <img scr='https://img.shields.io/badge/Node-green' alt='node'/>
+  <img scr='https://img.shields.io/badge/Nestjs-red' alt='nest'/>
+  <img scr='https://img.shields.io/badge/Typescript-blue' alt='typescript'/>
 </p>
 
 ## Description
