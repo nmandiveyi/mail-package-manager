@@ -1,3 +1,8 @@
+<br />
+<div align='center'>
+  <img src='./assets/logo.png' alt='mail package manager logo' height='150 />
+</div>
+
 
 ## Description
 
