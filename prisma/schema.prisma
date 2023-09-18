@@ -7,7 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Mail  {
+  id               Int                 @id() @default(autoincrement())
+  ownerId          Int
+  typeId           String
+  statusId         Int                 @map("status_id")
+  notes            String
+  modifiedBy       String
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  owner            User                @relation(fields: [ownerId], references: [id])
+  status           MailStatus          @relation(fields: [statusId], references: [id])
 
+}
+
+model User {
+  id              Int                  @id() @default(autoincrement())
+  firstName       String               @map("first_name")
+  lastName        String               @map("last_name")
+  email           String               @unique()
+  phoneNumber     String               @map("phone_number")
+  roleId          Int?                 @map("role_id")
+  mail            Mail[]
+  role            Role[]
+  hash            String
+
+}
+
+model Role {
+  id              Int                 @id() @default(autoincrement())
+  name            String
+  users           User[]
+
+}
+
+model MailStatus {
+  id              Int                 @id() @default(autoincrement())
+  name            String
+  mail            Mail[]       
+}
+
+model Notification {
+  id              Int                 @id() @default(autoincrement())
+  mailId          Int                 @map("mail_id")
+  typeId          Int                 @map("type_id")
+  ownerId         Int                 @map("owner_id")
+  modeId          Int                 @map("mode_id")
+  createdAt       DateTime            @map("created_at") @default(now())
+  mode            NotificationMode    @relation(fields: [modeId], references: [id])
+  type            NotificationType    @relation(fields: [typeId], references: [id])
+}
+
+model NotificationMode {
+  id              Int                 @id() @default(autoincrement())
+  name            String
+  notifications   Notification[]
+}
+
+model NotificationType {
+  id              Int                @id() @default(autoincrement())
+  name            String
+  notifications   Notification[]
+
+}
 
 
 
