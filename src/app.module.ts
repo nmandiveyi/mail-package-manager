@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './context/prisma.module';
 import { MailController } from './resources/mail/mail.controller';
 import { MailService } from './resources/mail/mail.service';
@@ -11,10 +11,9 @@ import { MailService } from './resources/mail/mail.service';
       isGlobal: true
     }),
     AuthModule,
-    PrismaModule,
+    PrismaModule
   ],
   controllers: [MailController],
-  providers: [MailService],
-  
+  providers: [MailService]
 })
 export class AppModule {}

@@ -12,37 +12,35 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
-
 @Service()
 export class AuthService {
   constructor(
     private context: Context,
     private jwt: JwtService,
-    private config:  ConfigService,
+    private config: ConfigService
   ) {}
 
-  async signup(signupDto: UserSignupDto
-    ): Promise<{ access_token: string}> {
+  async signup(
+    signupDto: UserSignupDto
+  ): Promise<{ access_token: string }> {
     const hash = await argon.hash(
       signupDto.password
     );
     delete signupDto.password;
 
     try {
-      const user =
-        await this.context.user.create({
+      const user = await this.context.user.create(
+        {
           data: {
             ...signupDto,
             hash
           }
-        });
+        }
+      );
 
       delete user.hash;
 
-      const {
-        id: userId,
-        email
-      } = user;
+      const { id: userId, email } = user;
 
       return this.signToken(userId, email);
     } catch (error) {
@@ -60,8 +58,9 @@ export class AuthService {
     }
   }
 
-  async signin(signinDto: UserSigninDto
-    ): Promise<{ access_token: string}> {
+  async signin(
+    signinDto: UserSigninDto
+  ): Promise<{ access_token: string }> {
     const { email, password } = signinDto;
 
     const user =
@@ -90,25 +89,27 @@ export class AuthService {
 
     delete user.hash;
 
-    const {
-      id: userId,
-    } = user;
+    const { id: userId } = user;
 
     return this.signToken(userId, email);
   }
 
-  async signToken(userId: number, email: string
-    ): Promise<{ access_token: string}> {
-
+  async signToken(
+    userId: number,
+    email: string
+  ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email
     };
 
-    const access_token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
-      secret: this.config.get("AUTH_SECRET")
-    });
+    const access_token = await this.jwt.signAsync(
+      payload,
+      {
+        expiresIn: '15m',
+        secret: this.config.get('AUTH_SECRET')
+      }
+    );
 
     return { access_token };
   }

@@ -1,15 +1,15 @@
 <br />
-<div align='center'>
-  <img src='./assets/logo.png' alt='mail package manager logo' height='150' />
-  <h1 style='color:#9E4D3B;'>
+<div align="center">
+  <img src="./assets/logo.png" alt="mail package manager logo" height="150" />
+  <h1 style="color:#9E4D3B;">
     Mail Package Manager
   </h1>
 </div>
-<p align='center'>
+<p align="center">
   <br />
-  <img alt="Static Badge" src="https://img.shields.io/badge/Nodejs%4020.5.1-green">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Nestjs%4010.0.0-red">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Typescript%40latest-blue">
+  <img alt="NodeJS" src="https://img.shields.io/badge/Nodejs%4020.5.1-green">
+  <img alt="NestJS" src="https://img.shields.io/badge/Nestjs%4010.0.0-red">
+  <img alt="Typescript" src="https://img.shields.io/badge/Typescript%40latest-blue">
   <br />
 </p>
 

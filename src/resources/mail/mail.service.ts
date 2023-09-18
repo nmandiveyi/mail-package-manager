@@ -4,9 +4,7 @@ import { CreateMailDto } from './mail.type';
 
 @Injectable()
 export class MailService {
-  constructor(
-    private context: Context
-  ){}
+  constructor(private context: Context) {}
 
   async getAll() {
     return await this.context.mail.findMany();
@@ -17,6 +15,6 @@ export class MailService {
       data: {
         ...createMailDto
       }
-    })
+    });
   }
 }

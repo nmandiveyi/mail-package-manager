@@ -4,13 +4,11 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class Context extends PrismaClient {
-  constructor(
-    config: ConfigService
-  ) {
+  constructor(config: ConfigService) {
     super({
       datasources: {
         db: {
-          url: config.get("DATABASE_URL")
+          url: config.get('DATABASE_URL')
         }
       },
       log: [
@@ -29,8 +27,7 @@ export class Context extends PrismaClient {
         {
           emit: 'event',
           level: 'error'
-        },
-
+        }
       ]
     });
   }
