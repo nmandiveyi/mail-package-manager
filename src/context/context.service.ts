@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
-export class Context extends PrismaClient {
-  constructor(config: ConfigService) {
+export class Context extends PrismaClient<Prisma.PrismaClientOptions, 'query'> {
+  constructor(config: ConfigService, private logger: LoggerService) {
     super({
       datasources: {
         db: {
@@ -13,22 +14,32 @@ export class Context extends PrismaClient {
       },
       log: [
         {
-          emit: 'event',
-          level: 'query'
+          emit: 'stdout',
+          level: 'query',
         },
         {
-          emit: 'event',
-          level: 'info'
+          emit: 'stdout',
+          level: 'error',
         },
         {
-          emit: 'event',
-          level: 'warn'
+          emit: 'stdout',
+          level: 'info',
         },
         {
-          emit: 'event',
-          level: 'error'
-        }
-      ]
+          emit: 'stdout',
+          level: 'warn',
+        },
+      ],
     });
+
+    this.$on('query', (e: Prisma.QueryEvent) => {
+      logger.log('\n' + '='.repeat(100))
+      logger.log(`Params: ${e.params}`)
+      logger.log(`\nQuery: ${e.query}`)
+      logger.log(`\nDuration: ${e.duration}s`)
+      logger.log('='.repeat(100))
+
+    })
+    
   }
 }
