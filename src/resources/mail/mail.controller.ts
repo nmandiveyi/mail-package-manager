@@ -8,8 +8,9 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { MailService } from './mail.service';
 import { CreateMailDto } from './mail.type';
+import { JwtGuard } from 'src/auth/auth.guard';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 @Controller('mail')
 export class MailController {
   constructor(private mailService: MailService) {}

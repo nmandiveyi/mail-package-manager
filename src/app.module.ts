@@ -5,6 +5,7 @@ import { PrismaModule } from './context/context.module';
 import { MailController } from './resources/mail/mail.controller';
 import { MailService } from './resources/mail/mail.service';
 import { LoggerModule } from './logger/logger.module';
+import { UserModule } from './resources/user/user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LoggerModule } from './logger/logger.module';
     LoggerModule,
     AuthModule,
     PrismaModule,
+    UserModule,
   ],
   controllers: [MailController],
   providers: [MailService],

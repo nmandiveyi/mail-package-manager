@@ -20,7 +20,6 @@ export class AuthStrategy extends PassportStrategy(
   }
 
   validate(payload: any) {
-    console.log({ payload });
     return payload;
   }
 }
