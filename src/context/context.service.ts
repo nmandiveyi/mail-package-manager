@@ -35,7 +35,7 @@ export class Context extends PrismaClient<Prisma.PrismaClientOptions, 'query'> {
     this.$on('query', (e: Prisma.QueryEvent) => {
       logger.log('\n' + '='.repeat(100))
       logger.log(`Params: ${e.params}`)
-      logger.log(`\nQuery: ${e.query}`)
+      logger.log(`\nSQL: ${e.query}`)
       logger.log(`\nDuration: ${e.duration}s`)
       logger.log('='.repeat(100))
 
