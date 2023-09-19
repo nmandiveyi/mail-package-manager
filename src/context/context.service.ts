@@ -5,7 +5,7 @@ import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class Context extends PrismaClient<Prisma.PrismaClientOptions, 'query'> {
-  constructor(config: ConfigService, private logger: LoggerService) {
+  constructor(config: ConfigService, private readonly logger: LoggerService) {
     super({
       datasources: {
         db: {
