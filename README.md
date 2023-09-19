@@ -1,8 +1,8 @@
 <br />
 <div align="center">
   <img src="./assets/logo.png" alt="mail package manager logo" height="150" />
-  <h1 style="color:#9E4D3B;">
-    <font color="red">Mail Package Manager</font>
+  <h1>
+    <font color="#9E4D3B">Mail Package Manager</font>
   </h1>
 </div>
 <p align="center">
